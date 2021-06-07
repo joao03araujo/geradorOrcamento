@@ -1,8 +1,24 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+
+  function calculatePercentage() {
+      const inputServico = document.getElementById("valorServico");
+
+      const valorServico = inputServico.value;
+
+      const InputoPorcentagemInicial = document.getElementById("porcentagem");
+
+      const porcentagemInicial = InputoPorcentagemInicial.value;
+
+      const porcentagemFinal = porcentagemInicial / 100 ;
+
+      const calculo = parseFloat(valorServico) + parseFloat(valorServico * porcentagemFinal);
+
+      document.getElementById("lblValorFinal").setAttribute("value", calculo);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -26,13 +42,16 @@ export default function Home() {
           <div className={styles.card}>
             <h2>Faça seu orçamento aqui!</h2>
             <div>
-              <input type="text" placeholder="Digite seu nome" className="form-control mb-3" />
-              <input type="text" placeholder="Digite seu cpf/cnpj" className="form-control mb-3" />
-              <input type="text" placeholder="Digite o valor do serviço" className="form-control mb-3" />
-              <input type="text" placeholder="Digite a porcentagem da mão de obra" className="form-control mb-3" />
+              <input type="text" placeholder="Digite seu nome" name="nome" id="nome" className="form-control mb-3" />
+              <input type="text" placeholder="Digite seu cpf/cnpj" id="cpfcnpj" className="form-control mb-3" />
+              <input type="text" placeholder="Digite o valor do serviço" id="valorServico" className="form-control mb-3" />
+              <input type="text" placeholder="Digite a porcentagem da mão de obra" id="porcentagem" className="form-control mb-3" />
             </div>
             <div>
-              <button type="button" className="btn btn-primary" id="btnCalcular">Calcular</button>
+              <button type="button" className="btn btn-primary" id="btnCalcular" onClick={calculatePercentage}>Calcular</button>
+            </div>
+            <div  id="valorFinalOrcamento">
+              <p>O valor final de seu orçamento é - R$ <span id="lblValorFinal"></span></p>
             </div>
           </div>
           <div className={styles.card}>
