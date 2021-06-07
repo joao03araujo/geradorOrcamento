@@ -5,6 +5,10 @@ Esse é o Front-End do projeto geradorDeOrçamento, ele foi desenvolvido em Next
 Ele está rodando em desenvolvimento, então digite em seu terminal:
 
 ```bash
+npm install 
+
+e depois 
+
 npm run dev
 # ou
 yarn dev
