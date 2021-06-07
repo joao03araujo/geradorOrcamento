@@ -4,6 +4,14 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
 
   function calculatePercentage() {
+
+    const lblValorFinal = document.getElementById("lblValorFinal");
+
+    const validarValor = lblValorFinal.value;
+
+    const validarOrcamento = validarValor === undefined;
+
+    if (validarOrcamento) {
       const inputServico = document.getElementById("valorServico");
 
       const valorServico = inputServico.value;
@@ -12,11 +20,48 @@ export default function Home() {
 
       const porcentagemInicial = InputoPorcentagemInicial.value;
 
-      const porcentagemFinal = porcentagemInicial / 100 ;
+      const inputNome = document.getElementById("nome");
+
+      const nome = inputNome.value;
+
+      const inputCpfcnpj = document.getElementById("cpfcnpj");
+
+      const cpfcnpj = inputCpfcnpj.value;
+
+      const porcentagemFinal = porcentagemInicial / 100;
 
       const calculo = parseFloat(valorServico) + parseFloat(valorServico * porcentagemFinal);
 
-      document.getElementById("lblValorFinal").setAttribute("value", calculo);
+      const validarCalculo = calculo !== calculo;
+
+      if (validarCalculo) {
+        document.location.reload(true);
+      } else {
+        var valorFinal = document.createTextNode(parseFloat(calculo));
+
+        lblValorFinal.appendChild(valorFinal);
+
+        handleSubmit()
+      }
+
+      async function handleSubmit() {
+        const userData = {
+          nome: nome,
+          cpfcnpj: cpfcnpj,
+          valorfinal: calculo
+        }
+        const res = await fetch('http://localhost:3001/orcamento', {
+          method: 'POST',
+          body: JSON.stringify(userData),
+        });
+        if (res.status < 300) {
+          refreshData();
+        }
+      }
+    } else {
+      document.location.reload(true);
+    }
+
   }
 
   return (
@@ -50,7 +95,7 @@ export default function Home() {
             <div>
               <button type="button" className="btn btn-primary" id="btnCalcular" onClick={calculatePercentage}>Calcular</button>
             </div>
-            <div  id="valorFinalOrcamento">
+            <div id="valorFinalOrcamento">
               <p>O valor final de seu orçamento é - R$ <span id="lblValorFinal"></span></p>
             </div>
           </div>
